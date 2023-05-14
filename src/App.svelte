@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Schedule from './lib/Schedule.svelte'
+  import NewEventModal from './components/new-event-modal.svelte'
 </script>
 
 <main>
   <div class="card">
-    <Schedule />
+    <NewEventModal />
   </div>
 </main>
 
