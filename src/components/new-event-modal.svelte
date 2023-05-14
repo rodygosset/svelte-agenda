@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { events, addEvent, updateEvent, deleteEvent } from '../lib/event-store';
+    import { events, addEvent, updateEvent } from '../stores/event-store';
 
 
     // initialize form values
@@ -40,7 +40,22 @@
 
 </script>
 
+
+<style lang="scss">
+
+    @import '../styles/abstracts/_colors.scss';
+    @import '../styles/base/_typography.scss';
+
+    h1 {
+        color: $primary;
+        @include header-1-regular;
+    }
+
+</style>
+
+
 <main>
+    <h1>New Event Form</h1>
     <form on:submit|preventDefault={createEvent}>
         <input type="text" bind:value={newTitle} placeholder="Event title" required />
         <input type="datetime-local" bind:value={newEventStartDate} required />
