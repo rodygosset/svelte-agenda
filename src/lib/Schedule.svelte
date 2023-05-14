@@ -49,4 +49,3 @@
           {/each}
       </div>
   </main>
-  
