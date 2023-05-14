@@ -26,4 +26,38 @@ function getEvents(): Event[] {
 
     return currentEvents;
 }
+
+
+let nouveauTitreEvenement = '';
+let nouvelleDateEvenement = '';
+
+function ajouterEvenement() {
+    const nouvelEvenement: Event = {
+        title: nouveauTitreEvenement,
+        date: nouvelleDateEvenement
+    };
+
+    events.update(evenementsActuels => [...evenementsActuels, nouvelEvenement]);
+
+    nouveauTitreEvenement = '';
+    nouvelleDateEvenement = '';
+}
 </script>
+
+<main>
+    <form on:submit|preventDefault={ajouterEvenement}>
+        <input type="text" bind:value={nouveauTitreEvenement} placeholder="Titre de l'événement" required />
+        <input type="datetime-local" bind:value={nouvelleDateEvenement} required />
+        <button type="submit">Ajouter un événement</button>
+    </form>
+
+    <div>
+        {#each $events as event (event.date)}
+            <div>
+                <h2>{event.title}</h2>
+                <p>{event.date}</p>
+            </div>
+        {/each}
+    </div>
+</main>
+
