@@ -1,22 +1,27 @@
 <script lang="ts">
 
   import "@fontsource/raleway"
+  import Header from "./components/layout/header.svelte";
 
-  import NewEventModal from './components/new-event-modal.svelte'
-  import FontAwesomeIcon from "./components/fontawesome-icon.svelte";
 
-  // use the font awesome icon component
-  // <FontAwesomeIcon icon="fa-solid fa-calendar-plus" />
+
 
 </script>
 
-<main>
-  <div class="card">
-    <!-- <FontAwesomeIcon icon="fa-solid fa-calendar-plus" /> -->
-    <NewEventModal />
-  </div>
-</main>
+<style lang="scss">
 
-<style>
+	@import "./styles/base/_mixins.scss";
+
+	main {
+		@include flex-container(column, nowrap, flex-start, stretch);
+	}
 
 </style>
+
+<Header />
+
+<main>
+
+
+
+</main>
