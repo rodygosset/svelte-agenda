@@ -1,56 +1,37 @@
 <script lang="ts">
-    import { events, addEvent, updateEvent } from '../stores/event-store';
-    import disk from '../styles/images/disk.svg';
+    import { addEvent } from '../stores/event-store';
 
+    let newTitle = '';
+    let newEventStartDate = new Date().toISOString();
+    let newEventEndDate = new Date(Date.parse(newEventStartDate) + 60 * 60 * 1000).toISOString();
+    let newEventColor = '#00B4D8';
 
-    // initialize form values
-
-    let newTitle = ''
-    let newEventStartDate = new Date().toISOString()
-    // event end date is by default one hour after start date
-    let newEventEndDate = new Date(Date.parse(newEventStartDate) + 60 * 60 * 1000).toISOString()
-
-    let newEventColor = '#FFFFFF'
-
-    let selectedEvent = null
-
-    // sort events by start date
-
-    $: $events = $events.sort((a, b) => a.start > b.start ? 1 : -1)
-
-
-    // helper functions
-
+    // Create an event with the given title, start and end dates, and color
     const createEvent = () => {
         addEvent({
             title: newTitle,
             start: new Date(newEventStartDate),
             end: new Date(newEventEndDate),
             color: newEventColor
-        })
-        newTitle = ''
-        newEventStartDate = new Date().toISOString()
-        newEventEndDate = new Date(Date.parse(newEventStartDate) + 60 * 60 * 1000).toISOString()
+        });
+        
+        newTitle = '';
+        newEventStartDate = new Date().toISOString();
+        newEventEndDate = new Date(Date.parse(newEventStartDate) + 60 * 60 * 1000).toISOString();
     }
 
-    const saveUpdatedEvent = () => {
-        updateEvent($events, selectedEvent)
-        selectedEvent = null
+    const cancelCreation = () => {
+        newTitle = '';
+        newEventStartDate = new Date().toISOString();
+        newEventEndDate = new Date(Date.parse(newEventStartDate) + 60 * 60 * 1000).toISOString();
     }
 </script>
 
 <style lang="scss">
-
     @import '../styles/abstracts/_colors.scss';
     @import '../styles/base/_typography.scss';
     @import '../styles/abstracts/variables.scss';
 
-    h1 {
-        color: $primary;
-        @include header-1-regular;
-        margin-bottom: 20px;
-    }
- 
     .cta-button {
         display: flex;
         align-items: center;
@@ -59,10 +40,11 @@
         background-color: $primary;
         @include typo-maker($text-sm-font-size, $font-weight-medium);
         color: $white;
-        width: 70%;
         height: 35px;
         margin-top: 10px;
         gap: 5px;
+        width: 50%; 
+        box-sizing: border-box; 
     }
 
     p {
@@ -70,9 +52,10 @@
     }
 
     .form-field {
+        @include reset-form-input;
         background-color: $black-600;
         color: $white;
-        width: 70%;
+        width: 100%;
         padding: 8px;
         align-items: center;
         justify-content: center;
@@ -94,62 +77,106 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
-      
     }
 
     .date-selector {
-    color: $white; 
-    width: 155px;
-    
+        color: $white; 
+        width: 155px;
     }
 
     .form-field::placeholder, .date-selector::placeholder {
-    /* Chrome, Firefox, and newer versions of Opera */
-    color: $white;
-    opacity: 1; /* Firefox needs this to display the color */
-    @include typo-maker($text-xs-font-size, $font-weight-regular);
-    flex:1;
+        /* Chrome, Firefox, and newer versions of Opera */
+        color: $white;
+        opacity: 1; /* Firefox needs this to display the color */
+        @include typo-maker($text-xs-font-size, $font-weight-regular);
+        flex:1;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 20px; 
+    }
+
+    .cta-button i.fa-save {
+    font-size: 18px; 
+}
+
+    .color-selector {
+        width: 40px;
+        height: 40px;
+        background-color: $primary;
+        border: none;
+        margin-right: 10px;
+    }
+
+    .title-container {
+        display: flex;
+        align-items: center;
+    }
+    .containerNewForm {
+        border: 1px solid #00B4D8; 
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .color-selector {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        border: none; 
+        background-color: var(--newEventColor); 
+    }
+
+    .modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
     }
 
 </style>
 
 <main>
-    <h1>New Event Form</h1>
-    <form on:submit|preventDefault={createEvent}>
-        <div class="containerNewForm">
-            <input class="form-field" type="text" bind:value={newTitle} placeholder="Event title" required />
-            <div class="dateContainer">
-                <div class="start">
-                    <p>Start</p>
-                    <input class="date-selector" type="datetime-local" bind:value={newEventStartDate} required />
+    <div class="modal">
+        <div class="modal-content">
+            <form on:submit|preventDefault={createEvent}>
+                <div class="containerNewForm">
+                    <div class="title-container">
+                        <input class="color-selector" type="color" bind:value={newEventColor} />
+                        <input class="form-field" type="text" bind:value={newTitle} placeholder="Event title" required />
+                    </div>
+                <div class="dateContainer">
+                    <div class="start">
+                        <p>Start</p>
+                        <input class="date-selector" type="datetime-local" bind:value={newEventStartDate} required />
+                    </div>
+                    <div class="end">
+                        <p>End</p>
+                        <input class="date-selector" type="datetime-local" bind:value={newEventEndDate} required />
+                    </div>
                 </div>
-                <div class="end">
-                    <p>End</p>
-                    <input class="date-selector" type="datetime-local" bind:value={newEventEndDate} required />
+                <div class="cta-buttons">
+                    <button class="cta-button" type="button" on:click={cancelCreation}>
+                        Cancel
+                    </button>
+                    <button class="cta-button" type="submit">
+                        <i class="far fa-save"></i>
+                        <span class="button-text">Save</span>
+                    </button>
                 </div>
-            </div>
-            <button class="cta-button" type="submit">
-                <img src={disk} alt="Disquette SVG" />
-                Save
-            </button>
         </div>
-    </form>
-
-    {#if selectedEvent}
-    <form on:submit|preventDefault={saveUpdatedEvent}>
-        <input type="text" bind:value={selectedEvent.title} placeholder="Event title" required />
-        <input type="datetime-local" bind:value={selectedEvent.start} required />
-        <button type="submit">Update Event</button>
-        <button type="button" on:click={() => selectedEvent = null}>Cancel</button>
-    </form>
-    {/if}
-
-    <div>
-        {#each $events as event (event.start)}
-            <div on:click={() => { selectedEvent = event }} on:keydown={() => {}}>
-                <h2>{event.title}</h2>
-                <p>{event.start}</p>
-            </div>
-        {/each}
+            </form>
     </div>
 </main>
