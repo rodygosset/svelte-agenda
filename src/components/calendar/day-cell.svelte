@@ -11,6 +11,7 @@
         const classNames = ["container"];
 
         if(currentDate) classNames.push("has-day");
+        if(nbEvents > 0) classNames.push("has-events")
 
         return classNames.join(" ");
     }
@@ -53,12 +54,18 @@
 
         transition: all ease-in-out 0.2s;
 
+        gap: 8px;
+
         p {
             @include header-2-regular;
             color: $white;
         }
 
         &.has-day {
+
+            &.has-events {
+                background: rgba($white, 0.03);
+            }
 
             .events-nb {
                 @include text-md-regular;
@@ -67,7 +74,7 @@
 
             .no-events {
                 @include text-md-regular;
-                color: $primary-600;
+                color: $primary-400;
             }
             
             &:hover {
