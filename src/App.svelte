@@ -91,11 +91,3 @@
 	</ul>
 
 </main>
-
-<!-- render the day view modal -->
-
-<DayView 
-	bind:isVisible={showModal} 
-	closeModal={() => showModal = false}
-	date={selectedDate} 
-/>
