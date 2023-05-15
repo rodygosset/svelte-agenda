@@ -12,10 +12,12 @@
 
 <style lang="scss">
     
+    @import "../../styles/base/_reset.scss";
     @import "../../styles/base/mixins.scss";
     @import "../../styles/abstracts/_colors.scss";
 
-    div {
+    button {
+        @include reset-button;
         @include flex-container(row, nowrap, center, center);
         width: 60px;
         height: 60px;
@@ -36,6 +38,6 @@
 </style>
 
 
-<div on:click={handleClick} on:keypress={() => {}}>
+<button on:click={handleClick} on:keypress={() => {}}>
     <FontAwesomeIcon icon="fa-chevron-left" />
-</div>
+</button>
