@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { addEvent } from '../stores/event-store';
+    import { events } from '../stores/event-store';
 
     let newTitle = '';
     let newEventStartDate = new Date().toISOString();
@@ -8,11 +8,12 @@
 
     // Create an event with the given title, start and end dates, and color
     const createEvent = () => {
-        addEvent({
+        events.addEvent({
             title: newTitle,
             start: new Date(newEventStartDate),
             end: new Date(newEventEndDate),
-            color: newEventColor
+            color: newEventColor,
+            description: ''
         });
         
         newTitle = '';
