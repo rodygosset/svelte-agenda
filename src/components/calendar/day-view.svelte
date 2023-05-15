@@ -2,7 +2,7 @@
     import BackButton from "../layout/back-button.svelte";
     import Modal from "../modal.svelte";
     import { events } from "../../stores/event-store";
-    import NewEventForm from "../forms/new-event-form.svelte";
+    import EventForm from "../forms/event-form.svelte";
     import EventListItem from "./event-list-item.svelte";
     import Button from "../button.svelte";
 
@@ -78,7 +78,7 @@
 
 	<section class="events">
         {#if showForm}
-            <NewEventForm date={date} on:close={() => showForm = false}/>
+            <EventForm date={date} on:close={() => showForm = false}/>
         {/if}
         {#if dayEvents.length == 0}
             <p class="empty">No event planned today !</p>

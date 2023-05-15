@@ -50,10 +50,10 @@ const createEventStore = () => {
          * @param event the event to update
          * @returns nothing
          */
-        updateEvent: (event: AgendaEvent) => update(currentEvents => {
+        updateEvent: (title: string, event: AgendaEvent) => update(currentEvents => {
 
             // find the index of the event in the array
-            const index = currentEvents.findIndex(e => e.title === event.title)
+            const index = currentEvents.findIndex(e => e.title === title)
 
 
             if (index === -1) return currentEvents

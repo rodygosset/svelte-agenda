@@ -61,7 +61,7 @@
             border: 1px solid transparent;
 
             &:hover {    
-                border-color: $white;
+                border-color: $white-200;
                 box-shadow: 0px 15px 45px $white-100;
             }
         }

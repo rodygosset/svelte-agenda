@@ -4,9 +4,12 @@
     import { events, type AgendaEvent } from "../../stores/event-store";
     import { formatAMPM } from "../../utils";
     import Button from "../button.svelte";
+    import EventForm from "../forms/event-form.svelte";
 
 
     export let event: AgendaEvent = null;
+
+    let editMode = false;
 
 </script>
 
@@ -70,29 +73,37 @@
 
 
 {#if event}
-    <li class="event-card">
-        <span class="selected-color" style="background-color: {event.color};"></span>
-        <div class="event-text-content">
-            <h4 class="event-title">{event.title}</h4>
-            <p class="event-date">From {formatAMPM(event.start)} to {formatAMPM(event.end)}</p>
-            {#if !event.description}
-                <p class="event-description-empty">No description provided</p>
-            {:else}
-                <p class="event-description">{event.description}</p>
-            {/if}
-        </div>
-        <div class="buttons-container">
-            <!-- edit button -->
-            <Button 
-                icon="fa-pen-to-square"
-                role="tertiary"
-            />
-            <!-- delete button -->
-            <Button 
-                icon="fa-trash-alt"
-                role="tertiary"
-                on:click={() => events.deleteEvent(event)}
-            />
-        </div>
-    </li>
+    {#if !editMode}
+        <li class="event-card">
+            <span class="selected-color" style="background-color: {event.color};"></span>
+            <div class="event-text-content">
+                <h4 class="event-title">{event.title}</h4>
+                <p class="event-date">From {formatAMPM(event.start)} to {formatAMPM(event.end)}</p>
+                {#if !event.description}
+                    <p class="event-description-empty">No description provided</p>
+                {:else}
+                    <p class="event-description">{event.description}</p>
+                {/if}
+            </div>
+            <div class="buttons-container">
+                <!-- edit button -->
+                <Button 
+                    icon="fa-pen-to-square"
+                    role="tertiary"
+                    on:click={() => editMode = true}
+                />
+                <!-- delete button -->
+                <Button 
+                    icon="fa-trash-alt"
+                    role="tertiary"
+                    on:click={() => events.deleteEvent(event)}
+                />
+            </div>
+        </li>
+    {:else}
+        <EventForm 
+            currentEvent={event}
+            on:close={() => editMode = false}
+        />
+    {/if}
 {/if}

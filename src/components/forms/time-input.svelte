@@ -6,10 +6,6 @@
     export let required: boolean = false
     export let name: string = ""
 
-    $: date = new Date(value)
-
-    $: console.log("value => ", value)
-
 </script>
 
 
