@@ -3,6 +3,7 @@
     import Modal from "../modal.svelte";
     import { events } from "../../stores/event-store";
     import NewEvent from "../forms/new-event.svelte";
+    import EventListItem from "./event-list-item.svelte";
 
     export let isVisible = false;
 
@@ -18,30 +19,13 @@
         && event.start.getFullYear() === day.getFullYear()
     ));
 
-    /**
-     * Format the date to AM/PM
-     * @param date The date to format
-     * @returns The formatted date
-     */
-
-    const formatAMPM = (date: Date) => {
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-
-        hours = hours % 12;
-        hours = hours || 12;
-
-        let minutesStr = minutes < 10 ? '0' + minutes : minutes;
-
-        return hours + ':' + minutesStr + ' ' + ampm;
-    }
 </script>
 
 <style lang="scss">
-    @import "../../styles/globals.scss";
-    @import "../../styles/abstracts/colors";
-    @import "../../styles/base/typography";
+    
+    @import "../../styles/abstracts/_colors";
+    @import "../../styles/base/_typography";
+    @import "../../styles/base/_mixins";
 
     .modal-header {
 		display: flex;
@@ -64,38 +48,12 @@
             text-align: center;
         }
 
-        .event-card {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-            margin-bottom: 32px;
-            border: 1px solid $white-200;
-
-            .selected-color {
-                flex-shrink: 0;
-                width: 40px;
-                height: 40px;
-            }
-
-            div {
-                //mettre à 80% pour corriger le pb d'ellipse
-                width: 100%;
-            }
-
-            .event-title {
-                margin: 0 0 7px;
-                @include header-4-regular;
-                @include text-overflow-ellipsis;
-                width: 280px;
-            }
-
-            .event-date {
-                margin: 7px 0 0;
-                color: $white-600;
-            }
+        .selected-color {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
         }
+            
 	}
 
 </style>
@@ -109,17 +67,13 @@
 
 	<div class="event-content">
         {#if dayEvents.length == 0}
-            <div class="empty">No event planned today !</div>
+            <p class="empty">No event planned today !</p>
         {/if}
-		{#each dayEvents as event}
-			<div class="event-card">
-				<span class="selected-color" style="background-color: {event.color};"></span>
-				<div>
-					<h4 class="event-title">{event.title}</h4>
-					<p class="event-date">From {formatAMPM(event.start)} to {formatAMPM(event.end)}</p>
-				</div>
-			</div>
-		{/each}
+        <ul>
+            {#each dayEvents as event}
+                <EventListItem {event}/>
+		    {/each}
+        </ul>
 		<NewEvent/>
 	</div>
 
