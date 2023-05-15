@@ -1,16 +1,27 @@
 <script lang="ts">
 
   import "@fontsource/raleway"
+  import Header from "./components/layout/header.svelte";
 
-  import NewEventModal from './components/new-event-modal.svelte'
+
+
+
 </script>
 
-<main>
-  <div class="card">
-    <NewEventModal />
-  </div>
-</main>
+<style lang="scss">
 
-<style>
+	@import "./styles/base/_mixins.scss";
+
+	main {
+		@include flex-container(column, nowrap, flex-start, stretch);
+	}
 
 </style>
+
+<Header />
+
+<main>
+
+
+
+</main>
