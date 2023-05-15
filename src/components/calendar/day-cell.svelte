@@ -1,19 +1,21 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
     import { events } from "../../stores/event-store";
 
 
     export let date: Date = null;
 
-
     $: day = date?.getDate();
 
-    const getClassNames = () => {
+    const getClassNames = (currentDate: Date) => {
         const classNames = ["container"];
 
-        if(date) classNames.push("has-day");
+        if(currentDate) classNames.push("has-day");
 
         return classNames.join(" ");
     }
+
+    $: classNames = getClassNames(date)
 
     // get the number of events for the current date
 
@@ -23,6 +25,14 @@
         && event.start.getMonth() === date.getMonth()
         && event.start.getFullYear() === date.getFullYear()
     )).length;
+
+    // handle click on the day cell
+
+    const dispatch = createEventDispatcher()
+
+	const handleClick = () => {
+		dispatch('click', {})
+	}
 
 </script>
 
@@ -70,7 +80,7 @@
 
 </style>
 
-<li class="{getClassNames()}">
+<li class="{classNames}" on:click={handleClick} on:keypress={() => {}}>
     
     {#if day}
         <p>{day}</p>
