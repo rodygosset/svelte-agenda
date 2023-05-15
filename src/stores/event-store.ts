@@ -15,6 +15,13 @@ export interface AgendaEvent {
 
 const initialValue: AgendaEvent[] = JSON.parse(localStorage.getItem('events') || '[]')
 
+// convert start and end to Date objects
+
+initialValue.forEach(event => {
+    event.start = new Date(event.start)
+    event.end = new Date(event.end)
+})
+
 
 
 // create a writable store with the initial value
