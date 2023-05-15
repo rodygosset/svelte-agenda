@@ -5,6 +5,7 @@ export interface AgendaEvent {
     start: Date;
     end: Date;
     color: string;
+    description: string;
 }
 
 // events store

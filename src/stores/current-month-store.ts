@@ -45,7 +45,7 @@ export const getDatesInCurrentMonth = (currentMonth: Date) => {
     const daysInMonth = lastDay.getDate()
     const firstDayIndex = firstDay.getDay()
     const lastDayIndex = lastDay.getDay()
-    const nextDays = 7 - lastDayIndex - 1
+    const nextDays = 7 - lastDayIndex
 
     // add the previous days of the week, if the first day of the month is not a monday
 
