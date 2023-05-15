@@ -4,7 +4,7 @@
 	import Header from "./components/layout/header.svelte";
     import DayCell from "./components/calendar/day-cell.svelte";
     import { currentMonth, getDatesInCurrentMonth } from "./stores/current-month-store";
-    import BackButton from "./components/layout/back-button.svelte";
+    import DayView from "./components/calendar/day-view.svelte";
 
 	const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -20,9 +20,8 @@
 
 
 	$: datesInMonth = getDatesInCurrentMonth($currentMonth)
-
-
-
+	let showModal = false;
+	let selectedDate = null;
 
 </script>
 
@@ -60,18 +59,12 @@
                 align-items: start;
 			}
 		}
-
-
 	}
-
 </style>
 
 <Header />
 
-<!-- <BackButton on:click={() => alert('heyyy')}/> -->
-
 <main>
-
 
 	<ul class="week-days">
 		{#each weekDays as day}
@@ -83,9 +76,10 @@
 
 	<ul class="calendar">
 		{#each datesInMonth as day}
-			<DayCell date={day} />
+			<DayCell date={day} on:click={() => {showModal = true; selectedDate = day}} />
 		{/each}
 	</ul>
 
-
 </main>
+
+<DayView isVisible={showModal} closeModal={() => showModal = false} day={selectedDate} />

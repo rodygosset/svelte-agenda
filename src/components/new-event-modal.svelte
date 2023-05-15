@@ -150,7 +150,7 @@
 </style>
 
 <main>
-    <div class="modal">
+    <div class="">
         <div class="modal-content">
             <form on:submit|preventDefault={createEvent}>
                 <div class="containerNewForm">
