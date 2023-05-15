@@ -30,6 +30,8 @@
 
         border: 1px solid $white-100;
 
+        transition: all ease-in-out 0.2s;
+
         p {
             @include header-2-regular;
             color: $white;
@@ -37,7 +39,11 @@
 
         &.has-day {
             
-            
+            &:hover {
+                cursor: pointer;
+                border-color: $primary;
+                box-shadow: 0px 15px 60px $primary-200;
+            }
         }
     }
 

@@ -49,7 +49,7 @@ export const getDatesInCurrentMonth = (currentMonth: Date) => {
 
     // add the previous days of the week, if the first day of the month is not a monday
 
-    for (let i = firstDayIndex; i > 0; i--) {
+    for (let i = firstDayIndex; i > 1; i--) {
         dates.push(null)
     }
 
