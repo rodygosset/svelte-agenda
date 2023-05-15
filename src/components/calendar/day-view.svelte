@@ -2,7 +2,7 @@
     import BackButton from "../layout/back-button.svelte";
     import Modal from "../modal.svelte";
     import { events } from "../../stores/event-store";
-    import NewEventModal from "../new-event-modal.svelte";
+    import NewEvent from "../forms/new-event.svelte";
 
     export let isVisible = false;
 
@@ -18,7 +18,13 @@
         && event.start.getFullYear() === day.getFullYear()
     ));
 
-    function formatAMPM(date) {
+    /**
+     * Format the date to AM/PM
+     * @param date The date to format
+     * @returns The formatted date
+     */
+
+    const formatAMPM = (date: Date) => {
         let hours = date.getHours();
         let minutes = date.getMinutes();
         let ampm = hours >= 12 ? 'PM' : 'AM';
@@ -26,9 +32,9 @@
         hours = hours % 12;
         hours = hours || 12;
 
-        minutes = minutes < 10 ? '0' + minutes : minutes;
+        let minutesStr = minutes < 10 ? '0' + minutes : minutes;
 
-        return hours + ':' + minutes + ' ' + ampm;
+        return hours + ':' + minutesStr + ' ' + ampm;
     }
 </script>
 
@@ -114,7 +120,7 @@
 				</div>
 			</div>
 		{/each}
-		<NewEventModal></NewEventModal>
+		<NewEvent/>
 	</div>
 
 </Modal>

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { events } from '../stores/event-store';
+    import { events } from '../../stores/event-store';
 
     let newTitle = '';
     let newEventStartDate = new Date().toISOString();
@@ -29,9 +29,9 @@
 </script>
 
 <style lang="scss">
-    @import '../styles/abstracts/_colors.scss';
-    @import '../styles/base/_typography.scss';
-    @import '../styles/abstracts/variables.scss';
+    @import '../../styles/abstracts/_colors.scss';
+    @import '../../styles/base/_typography.scss';
+    @import '../../styles/abstracts/variables.scss';
 
     .cta-button {
         display: flex;
@@ -128,19 +128,6 @@
         background-color: var(--newEventColor); 
     }
 
-    .modal {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-    }
-
     .modal-content {
         background-color: white;
         padding: 20px;
@@ -149,35 +136,34 @@
 
 </style>
 
-<main>
-    <div class="">
-        <div class="modal-content">
-            <form on:submit|preventDefault={createEvent}>
-                <div class="containerNewForm">
-                    <div class="title-container">
-                        <input class="color-selector" type="color" bind:value={newEventColor} />
-                        <input class="form-field" type="text" bind:value={newTitle} placeholder="Event title" required />
-                    </div>
-                <div class="dateContainer">
-                    <div class="start">
-                        <p>Start</p>
-                        <input class="date-selector" type="datetime-local" bind:value={newEventStartDate} required />
-                    </div>
-                    <div class="end">
-                        <p>End</p>
-                        <input class="date-selector" type="datetime-local" bind:value={newEventEndDate} required />
-                    </div>
+<div class="">
+    <div class="modal-content">
+        <form on:submit|preventDefault={createEvent}>
+            <div class="containerNewForm">
+                <div class="title-container">
+                    <input class="color-selector" type="color" bind:value={newEventColor} />
+                    <input class="form-field" type="text" bind:value={newTitle} placeholder="Event title" required />
                 </div>
-                <div class="cta-buttons">
-                    <button class="cta-button" type="button" on:click={cancelCreation}>
-                        Cancel
-                    </button>
-                    <button class="cta-button" type="submit">
-                        <i class="far fa-save"></i>
-                        <span class="button-text">Save</span>
-                    </button>
+            <div class="dateContainer">
+                <div class="start">
+                    <p>Start</p>
+                    <input class="date-selector" type="datetime-local" bind:value={newEventStartDate} required />
                 </div>
-        </div>
-            </form>
+                <div class="end">
+                    <p>End</p>
+                    <input class="date-selector" type="datetime-local" bind:value={newEventEndDate} required />
+                </div>
+            </div>
+            <div class="cta-buttons">
+                <button class="cta-button" type="button" on:click={cancelCreation}>
+                    Cancel
+                </button>
+                <button class="cta-button" type="submit">
+                    <i class="far fa-save"></i>
+                    <span class="button-text">Save</span>
+                </button>
+            </div>
+        
+        </form>
     </div>
-</main>
+</div>

@@ -14,19 +14,8 @@
         && event.start.getDate() === date.getDate()
         && event.start.getMonth() === date.getMonth()
         && event.start.getFullYear() === date.getFullYear()
-    )).length;
+    )).length
 
-
-    const getClassNames = (currentDate: Date) => {
-        const classNames = ["container"];
-
-        if(currentDate) classNames.push("has-day");
-        if(nbEvents > 0) classNames.push("has-events")
-
-        return classNames.join(" ");
-    }
-
-    $: classNames = getClassNames(date)
 
     // handle click on the day cell
 
@@ -88,7 +77,7 @@
 
 </style>
 
-<li class="{classNames}" on:click={handleClick} on:keypress={() => {}}>
+<li class:container={true} class:has-day={date != null} class:has-events={nbEvents > 0} on:click={handleClick} on:keypress={() => {}}>
     
     {#if day}
         <p>{day}</p>

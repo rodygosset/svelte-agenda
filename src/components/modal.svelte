@@ -3,13 +3,8 @@
 
 	let dialog; // HTMLDialogElement
 
-	$: if (dialog) {
-		if (showModal) {
-			dialog.showModal();
-		} else {
-			dialog.close();
-		}
-	}
+	$: if (dialog) { showModal ? dialog.showModal() : dialog.close() }
+	
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -22,8 +17,6 @@
 		<slot name="header" />
 
 		<slot />
-
-		<slot name="footer" />
 	</div>
 </dialog>
 
@@ -32,12 +25,9 @@
 
 	dialog {
 		width: 600px;
-		border-radius: 0.2em;
 		border: 1px solid $white-200;
-		padding: 0;
 		background-color: $black;
 		color: white;
-		border-radius: 0;
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.3);
@@ -66,8 +56,5 @@
 		to {
 			opacity: 1;
 		}
-	}
-	button {
-		display: block;
 	}
 </style>
