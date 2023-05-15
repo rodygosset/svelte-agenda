@@ -23,6 +23,8 @@
         top: 0;
         left: 0;
 
+        gap: 64px;
+
         background: $black-100;
         backdrop-filter: blur(40px);
 
