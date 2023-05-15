@@ -34,6 +34,11 @@
             @include header-2-regular;
             color: $white;
         }
+
+        &.has-day {
+            
+            
+        }
     }
 
 </style>

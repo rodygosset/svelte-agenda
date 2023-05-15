@@ -2,7 +2,7 @@
     import { nextMonth, previousMonth } from "../../stores/current-month-store";
 
     
-    import FontawesomeIcon from "../fontawesome-icon.svelte";
+    import FontAwesomeIcon from "../font-awesome-icon.svelte";
 
     export let forward: boolean = false;
 
@@ -41,5 +41,5 @@
 
 
 <div on:click={handleClick} on:keypress={() => {}}>
-    <FontawesomeIcon icon={ forward ? "fa-chevron-right" : "fa-chevron-left" } />
+    <FontAwesomeIcon icon={ forward ? "fa-chevron-right" : "fa-chevron-left" } />
 </div>
