@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { events } from "../../stores/event-store";
+
 
     export let date: Date = null;
 
@@ -13,6 +15,15 @@
         return classNames.join(" ");
     }
 
+    // get the number of events for the current date
+
+    $: nbEvents = $events.filter(event => (
+        date
+        && event.start.getDate() === date.getDate()
+        && event.start.getMonth() === date.getMonth()
+        && event.start.getFullYear() === date.getFullYear()
+    )).length;
+
 </script>
 
 
@@ -24,7 +35,7 @@
 
     .container {
 
-        @include flex-container(row, nowrap, center, center);
+        @include flex-container(column, nowrap, center, center);
         width: 110px;
         height: 110px;
 
@@ -38,6 +49,16 @@
         }
 
         &.has-day {
+
+            .events-nb {
+                @include text-md-regular;
+                color: $primary;
+            }
+
+            .no-events {
+                @include text-md-regular;
+                color: $primary-600;
+            }
             
             &:hover {
                 cursor: pointer;
@@ -53,6 +74,11 @@
     
     {#if day}
         <p>{day}</p>
+        {#if nbEvents > 0}
+            <p class="events-nb">{nbEvents} event{nbEvents > 1 ? "s" : ""}</p>
+        {:else}
+            <p class="no-events">No events</p>
+        {/if}
     {/if}
 
 </li>
