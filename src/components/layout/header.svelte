@@ -4,7 +4,7 @@
     import MonthNavButton from "./month-nav-button.svelte";
     import { currentMonth } from "../../stores/current-month-store";
 
-    $: month = $currentMonth.toLocaleDateString("default", { month: "long" });
+    $: month = $currentMonth.toLocaleDateString("en", { month: "long" });
     $: year = $currentMonth.getFullYear();
 
 </script>

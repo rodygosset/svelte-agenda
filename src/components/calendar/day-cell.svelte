@@ -7,6 +7,16 @@
 
     $: day = date?.getDate();
 
+    // get the number of events for the current date
+
+    $: nbEvents = $events.filter(event => (
+        date
+        && event.start.getDate() === date.getDate()
+        && event.start.getMonth() === date.getMonth()
+        && event.start.getFullYear() === date.getFullYear()
+    )).length;
+
+
     const getClassNames = (currentDate: Date) => {
         const classNames = ["container"];
 
@@ -17,15 +27,6 @@
     }
 
     $: classNames = getClassNames(date)
-
-    // get the number of events for the current date
-
-    $: nbEvents = $events.filter(event => (
-        date
-        && event.start.getDate() === date.getDate()
-        && event.start.getMonth() === date.getMonth()
-        && event.start.getFullYear() === date.getFullYear()
-    )).length;
 
     // handle click on the day cell
 
