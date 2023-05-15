@@ -2,21 +2,24 @@
     import BackButton from "../layout/back-button.svelte";
     import Modal from "../modal.svelte";
     import { events } from "../../stores/event-store";
-    import NewEvent from "../forms/new-event.svelte";
+    import NewEventForm from "../forms/new-event-form.svelte";
     import EventListItem from "./event-list-item.svelte";
+    import Button from "../button.svelte";
 
     export let isVisible = false;
+
+    let showForm = false;
 
     $: showModal = isVisible;
 
     export let closeModal = () => showModal = false
-    export let day = null;
+    export let date: Date = null;
 
     $: dayEvents = $events.filter(event => (
-        day
-        && event.start.getDate() === day.getDate()
-        && event.start.getMonth() === day.getMonth()
-        && event.start.getFullYear() === day.getFullYear()
+        date
+        && event.start.getDate() === date.getDate()
+        && event.start.getMonth() === date.getMonth()
+        && event.start.getFullYear() === date.getFullYear()
     ));
 
 </script>
@@ -28,44 +31,55 @@
     @import "../../styles/base/_mixins";
 
     .modal-header {
-		display: flex;
-		align-items: center;
+		@include flex-container(row, nowrap, space-between, center);
 		gap: 32px;
-        margin-bottom: 32px;
 
 		h3 {
 			@include header-3-regular;
 		}
 	}
-	.event-content {
-		min-height: 15rem;
-        width: 100%;
-
+	.events {
+        @include flex-container(column, nowrap, flex-start, stretch);
+        gap: 32px;
+		flex: 1;
         .empty {
             padding: 20px;
             color: $white-600;
             font-style: italic;
             text-align: center;
         }
-
-        .selected-color {
-            flex-shrink: 0;
-            width: 40px;
-            height: 40px;
-        }
             
 	}
+
+    .row-container {
+        @include flex-container(row, nowrap, flex-start, center);
+        gap: 16px;
+    }
+
+    ul {
+        @include reset-list;
+        @include flex-container(column, nowrap, flex-start, flex-start);
+        gap: 16px;
+    }
 
 </style>
 
 <Modal bind:showModal>
 
-	<div slot="header" class="modal-header">
-		<BackButton on:click={closeModal}/>
-		<h3> {day?.toLocaleDateString('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} </h3>
-	</div>
+	<section slot="header" class="modal-header">
+		<div class="row-container">
+            <BackButton on:click={closeModal}/>
+		    <h3>{date?.toLocaleDateString('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
+        </div>
+        {#if !showForm}
+            <Button icon="fa-plus" on:click={() => showForm = true}>Add event</Button>
+        {/if}
+    </section>
 
-	<div class="event-content">
+	<section class="events">
+        {#if showForm}
+            <NewEventForm date={date} on:close={() => showForm = false}/>
+        {/if}
         {#if dayEvents.length == 0}
             <p class="empty">No event planned today !</p>
         {/if}
@@ -74,7 +88,6 @@
                 <EventListItem {event}/>
 		    {/each}
         </ul>
-		<NewEvent/>
-	</div>
+	</section>
 
 </Modal>

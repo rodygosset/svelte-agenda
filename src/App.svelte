@@ -23,6 +23,12 @@
 	let showModal = false;
 	let selectedDate = null;
 
+	const handleDayClick = (date: Date) => {
+		if(!date) return;
+		showModal = true;
+		selectedDate = date;
+	}
+
 </script>
 
 <style lang="scss">
@@ -62,7 +68,11 @@
 	}
 </style>
 
+<!-- simple header -->
+
 <Header />
+
+<!--  the calendar -->
 
 <main>
 
@@ -76,10 +86,16 @@
 
 	<ul class="calendar">
 		{#each datesInMonth as day}
-			<DayCell date={day} on:click={() => {showModal = true; selectedDate = day}} />
+			<DayCell date={day} on:click={() => handleDayClick(day)} />
 		{/each}
 	</ul>
 
 </main>
 
-<DayView isVisible={showModal} closeModal={() => showModal = false} day={selectedDate} />
+<!-- render the day view modal -->
+
+<DayView 
+	bind:isVisible={showModal} 
+	closeModal={() => showModal = false}
+	date={selectedDate} 
+/>

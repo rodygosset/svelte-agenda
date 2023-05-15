@@ -7,37 +7,36 @@
 	
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<dialog
-	bind:this={dialog}
-	on:close={() => (showModal = false)}
-	on:click|self={() => dialog.close()}
->
-	<div on:click|stopPropagation>
-		<slot name="header" />
-
-		<slot />
-	</div>
-</dialog>
-
 <style lang="scss">
 	@import "../styles/abstracts/_colors.scss";
+	@import "../styles/base/_mixins.scss";
 
 	dialog {
-		width: 600px;
+
+		@include flex-container(column, nowrap, flex-start, stretch);
+		gap: 32px;
+		min-width: 600px;
 		border: 1px solid $white-200;
-		background-color: $black;
-		color: white;
+		background: $black;
+		max-height: 80vh;
+		color: $white;
+		padding: 32px;
+
+		&::backdrop {
+			background: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(3px);
+		}
+
+		&[open] {
+			animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+			&::backdrop {
+				animation: fade 0.2s ease-out;
+			}
+		}
+
 	}
-	dialog::backdrop {
-		background: rgba(0, 0, 0, 0.3);
-	}
-	dialog > div {
-		padding: 1em;
-	}
-	dialog[open] {
-		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-	}
+
 	@keyframes zoom {
 		from {
 			transform: scale(0.95);
@@ -46,9 +45,7 @@
 			transform: scale(1);
 		}
 	}
-	dialog[open]::backdrop {
-		animation: fade 0.2s ease-out;
-	}
+
 	@keyframes fade {
 		from {
 			opacity: 0;
@@ -58,3 +55,9 @@
 		}
 	}
 </style>
+
+
+<dialog bind:this={dialog} on:close={() => (showModal = false)}>
+	<slot name="header" />
+	<slot />
+</dialog>

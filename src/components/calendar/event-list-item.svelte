@@ -1,29 +1,12 @@
 
 
 <script lang="ts">
-    import type { AgendaEvent } from "../../stores/event-store";
+    import { events, type AgendaEvent } from "../../stores/event-store";
+    import { formatAMPM } from "../../utils";
+    import Button from "../button.svelte";
 
 
     export let event: AgendaEvent = null;
-
-    /**
-     * Format the date to AM/PM
-     * @param date The date to format
-     * @returns The formatted date
-     */
-
-     const formatAMPM = (date: Date) => {
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-
-        hours = hours % 12;
-        hours = hours || 12;
-
-        let minutesStr = minutes < 10 ? '0' + minutes : minutes;
-
-        return hours + ':' + minutesStr + ' ' + ampm;
-    }
 
 </script>
 
@@ -77,6 +60,12 @@
             }
         }
     }
+
+    .buttons-container {
+        @include flex-container(row, nowrap, flex-end, center);
+        gap: 8px;
+        width: 100%;
+    }
 </style>
 
 
@@ -91,6 +80,19 @@
             {:else}
                 <p class="event-description">{event.description}</p>
             {/if}
+        </div>
+        <div class="buttons-container">
+            <!-- edit button -->
+            <Button 
+                icon="fa-pen-to-square"
+                role="tertiary"
+            />
+            <!-- delete button -->
+            <Button 
+                icon="fa-trash-alt"
+                role="tertiary"
+                on:click={() => events.deleteEvent(event)}
+            />
         </div>
     </li>
 {/if}
