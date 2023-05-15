@@ -10,7 +10,7 @@
     const getClassNames = () => {
         const classNames = ["container"];
 
-        if(day) classNames.push("has-day");
+        if(date) classNames.push("has-day");
 
         return classNames.join(" ");
     }
