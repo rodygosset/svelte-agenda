@@ -5,15 +5,13 @@
     import EventForm from "../forms/event-form.svelte";
     import EventListItem from "./event-list-item.svelte";
     import Button from "../button.svelte";
+    import { createEventDispatcher } from "svelte";
 
-    export let isVisible = false;
+
+    export let date: Date = null;
+    export let show: boolean = false;
 
     let showForm = false;
-
-    $: showModal = isVisible;
-
-    export let closeModal = () => showModal = false
-    export let date: Date = null;
 
     $: dayEvents = $events.filter(event => (
         date
@@ -21,6 +19,12 @@
         && event.start.getMonth() === date.getMonth()
         && event.start.getFullYear() === date.getFullYear()
     ));
+
+    const dispatch = createEventDispatcher()
+
+    const closeModal = () => {
+        dispatch('close', {})
+    } 
 
 </script>
 
@@ -64,7 +68,7 @@
 
 </style>
 
-<Modal bind:showModal>
+<Modal bind:showModal={show}>
 
 	<section slot="header" class="modal-header">
 		<div class="row-container">
